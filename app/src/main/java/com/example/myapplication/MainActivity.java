@@ -8,17 +8,15 @@ import android.view.*;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.Stack;
-
 public class MainActivity extends ListActivity {
 
-    String[] values = makeArray(1000000);
+    String[] values;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        values = makeArray(1000000);
         setListAdapter(new CustomAdapter(this, R.layout.list_item, values));
     }
 
