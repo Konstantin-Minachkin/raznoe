@@ -1,14 +1,15 @@
 package com.example.myapplication;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.*;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends AppCompatActivity {
 
     String[] values;
 
@@ -17,7 +18,8 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         values = makeArray(1000000);
-        setListAdapter(new CustomAdapter(this, R.layout.list_item, values));
+        ListView list = (ListView) findViewById(R.id.list);
+        list.setAdapter(new CustomAdapter(this, R.layout.list_item, values));
     }
 
     protected String[] makeArray(int n) {
@@ -38,11 +40,11 @@ public class MainActivity extends ListActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = getLayoutInflater();
-            View row = inflater.inflate(R.layout.list_item, parent, false);
-            TextView label = (TextView) row.findViewById(R.id.label);
+            convertView = inflater.inflate(R.layout.list_item, parent, false);
+            TextView label = (TextView) convertView.findViewById(R.id.label);
             label.setText(values[position]);
-            row.setBackgroundColor((position & 1) == 1 ? Color.WHITE : Color.LTGRAY);
-            return row;
+            convertView.setBackgroundColor((position & 1) == 1 ? Color.WHITE : Color.LTGRAY);
+            return convertView;
         }
     }
 
@@ -68,10 +70,10 @@ public class MainActivity extends ListActivity {
             "шеснадцать ", "семьнадцать ", "восемьнадцать ", "девятнадцать ", "девятнадцать "};
 
     private static final String[][] textMillion = {{"", "", "", ""},
-            {"миллиардов ", "миллионов ", "тысячь ", ""},
+            {"миллиардов ", "миллионов ", "тысяч ", ""},
             {"миллиард ", "миллион ", "тысяча ", ""},
             {"миллиарда ", "миллиона ", "тысячи ", ""},
-            {"миллиардов ", "миллионов ", "тысячь ", ""}};
+            {"миллиардов ", "миллионов ", "тысяч ", ""}};
 
     public static String WordsRus(long number) {
         numberA = number;
@@ -101,9 +103,6 @@ public class MainActivity extends ListActivity {
     }
 
     private static String WordsToThousand(int numericalValue, int index) {
-        //this.numericalValue = numericalValue;
-        //this.index = index;
-
 // разбиваем образец числа на составляющие
         hundreds = numericalValue / 100;
         decimal = (numericalValue - (hundreds * 100)) / 10;
@@ -123,7 +122,7 @@ public class MainActivity extends ListActivity {
             if (units == 1 && decimal != 1) numText = numText + "ин ";
             if (units == 2 & decimal != 1) {
                 numText = numText + "а ";
-            } else if (units != 0 & decimal != 1) numText = numText + " ";
+            } else if (units != 0 & decimal != 1 && units!=1 ) numText = numText + " ";
         }
 
         // дописываем степень числа
