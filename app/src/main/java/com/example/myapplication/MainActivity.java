@@ -11,14 +11,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
+        Thread s = new Thread() {
             public void run() {
-                Intent mainIntent = new Intent(MainActivity.this, Splashscreen.class);
-                MainActivity.this.startActivity(mainIntent);
-                MainActivity.this.finish();
+                try {
+                    sleep(2000);
+                    Intent intent = new Intent(MainActivity.this, Splashscreen.class);
+                    startActivity(intent);
+                    finish();
+                }
+                catch (Exception e) {
+
+                }
             }
-        }, 2000);
+        };
+        s.start();
     }
 }
